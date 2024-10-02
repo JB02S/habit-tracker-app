@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sign_in_button/sign_in_button.dart';
 import 'package:task_manager_app/presentation/blocs/sign_in_event.dart';
-
-import '../blocs/sign_in_bloc.dart';
+import 'package:task_manager_app/presentation/blocs/sign_in_bloc.dart';
+import 'package:task_manager_app/presentation/blocs/sign_in_state.dart';
 
 class SignInScreen extends StatefulWidget {
 
@@ -18,17 +17,6 @@ class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  void _showButtonPressDialog(BuildContext context, String provider) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('$provider Button Pressed!'),
-        backgroundColor: Colors.black26,
-        duration: const Duration(milliseconds: 400),
-      ),
-    );
-  }
-
-  // Dispose controllers to avoid memory leaks
   @override
   void dispose() {
     _emailController.dispose();
@@ -36,7 +24,6 @@ class _SignInScreenState extends State<SignInScreen> {
     super.dispose();
   }
 
-  // Validator for email field
   String? _emailValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter an email';
@@ -48,7 +35,6 @@ class _SignInScreenState extends State<SignInScreen> {
     return null;
   }
 
-  // Validator for password field
   String? _passwordValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter a password';
@@ -59,7 +45,6 @@ class _SignInScreenState extends State<SignInScreen> {
     return null;
   }
 
-  // Function to handle form submission
   void _onSignInButtonPressed() {
     // Check if the form is valid
     if (_formKey.currentState!.validate()) {
@@ -73,49 +58,55 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
 
+  Widget _emailField() {
+    return TextFormField(
+      controller: _emailController,
+      decoration: const InputDecoration(
+        labelText: 'Email',
+        border: OutlineInputBorder(),
+      ),
+      validator: _emailValidator, // Email validation logic
+      keyboardType: TextInputType.emailAddress,
+    );
+  }
+
+  Widget _passwordField() {
+    return TextFormField(
+      controller: _passwordController,
+      decoration: const InputDecoration(
+        labelText: 'Password',
+        border: OutlineInputBorder(),
+      ),
+      validator: _passwordValidator, // Password validation logic
+      obscureText: true, // Hide the password text
+    );
+  }
+
+  Widget _signInButton() {
+    return ElevatedButton(
+      onPressed: _onSignInButtonPressed, // Call the sign-in function
+      child: const Text('Sign In'),
+    );
+  }
+
+  Widget _loginForm() {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          _emailField(),
+          _passwordField(),
+          _signInButton(),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: <Widget>[
-
-              // Email Input Field
-              TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder(),
-                ),
-                validator: _emailValidator, // Email validation logic
-                keyboardType: TextInputType.emailAddress,
-              ),
-
-            const SizedBox(height: 16.0),
-
-            // Password Input Field
-            TextFormField(
-              controller: _passwordController,
-              decoration: const InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(),
-              ),
-              validator: _passwordValidator, // Password validation logic
-              obscureText: true, // Hide the password text
-            ),
-
-            const SizedBox(height: 16.0),
-
-            // Sign In Button
-            ElevatedButton(
-              onPressed: _onSignInButtonPressed, // Call the sign-in function
-              child: const Text('Sign In'),
-            )
-            ],
-          ),
-        ),
+        child: _loginForm()
       ),
     );
   }
