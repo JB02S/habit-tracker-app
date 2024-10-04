@@ -4,6 +4,7 @@ import 'package:habit_tracker_app/features/habit_tracker/domain/repositories/hab
 import 'package:habit_tracker_app/features/habit_tracker/domain/use_cases/add_habit_usecase.dart';
 import 'package:habit_tracker_app/features/habit_tracker/domain/use_cases/get_habit_usecase.dart';
 import 'package:habit_tracker_app/features/habit_tracker/presentation/bloc/habit_bloc.dart';
+import 'package:isar/isar.dart';
 
 import 'core/services/database_service.dart';
 
@@ -12,10 +13,10 @@ final locater = GetIt.instance;
 Future<void> initialiseDepenencies() async {
 
   // Initialise database
-  final isar = DatabaseService.initDatabase();
+  final isar = await DatabaseService.initDatabase();
 
   // Dependencies
-  locater.registerSingleton(isar);
+  locater.registerSingleton<Isar>(isar);
   locater.registerSingleton<HabitRepository>(
     HabitRepositoryImpl(locater())
   );
@@ -32,5 +33,7 @@ Future<void> initialiseDepenencies() async {
   locater.registerFactory<HabitBloc>(
     () => HabitBloc(locater(), locater())
   );
+
+
 
 }

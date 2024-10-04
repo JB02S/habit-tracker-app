@@ -11,6 +11,7 @@ import 'package:get_it/get_it.dart';
 
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await initialiseDepenencies();
   runApp(const MyApp());
 }
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       // get BLoC and call GetHabitsEvent
       create: (context) {
         final bloc = locater<HabitBloc>();
-        bloc.add(const GetHabitsEvent()); 
+        bloc.add(const GetHabitsEvent());
         return bloc;
       },
 

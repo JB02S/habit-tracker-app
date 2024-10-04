@@ -13,8 +13,8 @@ class HabitRepositoryImpl implements HabitRepository {
   @override
   Future<void> createHabit(HabitEntity habit) async {
 
-    await _isar.writeTxn(() async {
-      await _isar.habitModels.put(HabitModel.fromEntity(habit));
+    await _isar.writeAsync<void>((isar) {
+      _isar.habitModels.put(HabitModel.fromEntity(habit));
     });
   }
 

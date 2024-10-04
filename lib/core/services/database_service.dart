@@ -3,16 +3,19 @@ import 'package:habit_tracker_app/features/habit_tracker/data/models/habit_model
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
-// Service class for opening isar database, use getit locater to access
+// Service class for opening isar database, use getit service locater to access
 
 class DatabaseService {
 
   static Future<Isar> initDatabase() async {
 
+
+
     final dir = await getApplicationDocumentsDirectory();
+    print('${dir.path}/lib/features/habit_tracker/data/data_source');
 
     return await Isar.open(
-      [HabitModelSchema],
+      schemas: [HabitModelSchema],
       directory: '${dir.path}/lib/features/habit_tracker/data/data_source'
     );
   }

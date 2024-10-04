@@ -3,10 +3,11 @@ import 'package:isar/isar.dart';
 
 part 'habit_model.g.dart';
 
-@collection
+@Collection()
 class HabitModel extends HabitEntity{
 
-  Id id = Isar.autoIncrement;
+  @Id()
+  int id = 0;
 
   HabitModel({required super.title, required super.description});
 
