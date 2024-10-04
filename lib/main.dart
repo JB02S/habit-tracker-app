@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:task_manager_app/presentation/blocs/sign_in_bloc.dart';
-import 'package:task_manager_app/presentation/blocs/sign_in_state.dart';
-import 'domain/use_cases/sign_in_use_case.dart';
-import 'presentation/screens/sign_in_screen.dart';
-import 'package:firebase_core/firebase_core.dart';
-
-import 'firebase_options.dart';
+import 'package:habit_tracker_app/features/habit_tracker/presentation/bloc/habit_provider.dart';
+import 'package:provider/provider.dart';
+import 'features/habit_tracker/presentation/pages/home_page.dart';
 
 
 void main() async {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => HabitProvider()),
+      ],
+      child: const MyApp(),
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -18,17 +20,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-            create: (context) => SignInBloc()
-        )
-      ],
-      child: MaterialApp(
-        title: "Task manager",
-        theme: ThemeData(primarySwatch: Colors.blue),
-        home: const SignInScreen(),
-      ),
+    return MaterialApp(
+      home: const HomePage(),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
+        textTheme: Typography.blackHelsinki
+      )
     );
   }
 }

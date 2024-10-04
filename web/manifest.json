@@ -1,6 +1,6 @@
 {
-    "name": "task_manager_app",
-    "short_name": "task_manager_app",
+    "name": "habit_tracker_app",
+    "short_name": "habit_tracker_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
