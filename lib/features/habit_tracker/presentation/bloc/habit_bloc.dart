@@ -9,9 +9,17 @@ import '../../domain/use_cases/get_habit_usecase.dart';
 
 class HabitBloc extends Bloc<HabitEvent, HabitState> {
 
-  final GetHabitUsecase _getHabitUseCase;
+  final GetHabitsUsecase _getHabitsUseCase;
   final AddHabitUsecase _addHabitUseCase;
 
-  HabitBloc(this._getHabitUseCase, this._addHabitUseCase) : super(HabitInitial());
+  HabitBloc(this._getHabitsUseCase, this._addHabitUseCase) : super(HabitLoading()) {
+    // Listen for get habits event
+    on <GetHabitsEvent> (onGetHabitsEvent);
+  }
 
+  Future<void> onGetHabitsEvent(GetHabitsEvent event, Emitter <HabitState> emit) async {
+    emit(HabitLoading());
+    await _getHabitsUseCase.execute();
+
+  }
 }

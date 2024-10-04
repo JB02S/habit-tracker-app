@@ -19,7 +19,7 @@ class HabitRepositoryImpl implements HabitRepository {
   }
 
   @override
-  Future<void> getHabit(HabitEntity habit) {
+  Future<void> getHabits() {
     // TODO: implement getHabit
     throw UnimplementedError();
   }
