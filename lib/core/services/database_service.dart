@@ -12,7 +12,6 @@ class DatabaseService {
 
 
     final dir = await getApplicationDocumentsDirectory();
-    print(dir.path);
 
     return await Isar.open(
       schemas: [HabitModelSchema],
