@@ -12,11 +12,11 @@ class DatabaseService {
 
 
     final dir = await getApplicationDocumentsDirectory();
-    print('${dir.path}/lib/features/habit_tracker/data/data_source');
+    print(dir.path);
 
     return await Isar.open(
       schemas: [HabitModelSchema],
-      directory: '${dir.path}/lib/features/habit_tracker/data/data_source'
+      directory: dir.path
     );
   }
 }

@@ -12,7 +12,7 @@ final locater = GetIt.instance;
 
 Future<void> initialiseDepenencies() async {
 
-  // Initialise database
+  // Initialise database  
   final isar = await DatabaseService.initDatabase();
 
   // Dependencies
