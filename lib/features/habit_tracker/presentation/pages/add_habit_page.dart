@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:habit_tracker_app/features/habit_tracker/domain/entities/habit_entity.dart';
 import 'package:habit_tracker_app/features/habit_tracker/presentation/bloc/habit_bloc.dart';
+import 'package:habit_tracker_app/features/habit_tracker/presentation/bloc/habit_event.dart';
+import 'package:habit_tracker_app/injection_container.dart';
 import 'package:provider/provider.dart';
 
 class AddHabitPage extends StatefulWidget {
@@ -18,6 +21,7 @@ class _AddHabitPageState extends State<AddHabitPage> {
 
   @override
   Widget build(BuildContext context) {
+    final habitBloc = context.read<HabitBloc>();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -55,7 +59,7 @@ class _AddHabitPageState extends State<AddHabitPage> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    throw UnimplementedError();
+                    habitBloc.add(AddHabitEvent(HabitEntity(title: _title, description: _description)));
                   }
                 },
                 child: Text("Add")

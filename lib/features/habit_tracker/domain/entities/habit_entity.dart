@@ -1,7 +1,7 @@
 
 class HabitEntity {
-  String title;
-  String description;
+  late String title;
+  late String description;
 
   HabitEntity({
     required this.title,

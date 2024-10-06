@@ -7,7 +7,7 @@ part 'habit_model.g.dart';
 class HabitModel extends HabitEntity{
 
   @Id()
-  int id = 0;
+  int id = Isar.autoIncrement;
 
   HabitModel({required super.title, required super.description});
 

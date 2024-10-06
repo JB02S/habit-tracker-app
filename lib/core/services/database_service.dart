@@ -9,8 +9,6 @@ class DatabaseService {
 
   static Future<Isar> initDatabase() async {
 
-
-
     final dir = await getApplicationDocumentsDirectory();
 
     return await Isar.open(

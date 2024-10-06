@@ -9,7 +9,7 @@ class GetHabitsEvent extends HabitEvent {
 }
 
 class AddHabitEvent extends HabitEvent {
-  final HabitEntity habit;
-
-  const AddHabitEvent(this.habit);
+  final HabitEntity _habit;
+  HabitEntity get habit => _habit;
+  const AddHabitEvent(this._habit);
 }

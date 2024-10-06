@@ -13,13 +13,18 @@ class HabitBloc extends Bloc<HabitEvent, HabitState> {
   final AddHabitUsecase _addHabitUseCase;
 
   HabitBloc(this._getHabitsUseCase, this._addHabitUseCase) : super(HabitLoading()) {
-    // Listen for get habits event
     on <GetHabitsEvent> (onGetHabitsEvent);
+    on <AddHabitEvent> (onAddHabitsEvent);
   }
 
-  Future<void> onGetHabitsEvent(GetHabitsEvent event, Emitter <HabitState> emit) async {
+  Future<void> onGetHabitsEvent(GetHabitsEvent event, Emitter<HabitState> emit) async {
     emit(HabitLoading());
     await _getHabitsUseCase.execute();
-
   }
+
+  Future<void> onAddHabitsEvent(AddHabitEvent event, Emitter<HabitState> emit) async {
+    emit(HabitLoading());
+    await _addHabitUseCase.execute(event.habit);
+  }
+
 }

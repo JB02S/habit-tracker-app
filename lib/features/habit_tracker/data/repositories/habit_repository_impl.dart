@@ -13,9 +13,23 @@ class HabitRepositoryImpl implements HabitRepository {
   @override
   Future<void> createHabit(HabitEntity habit) async {
 
-    await _isar.writeAsync<void>((isar) {
-      _isar.habitModels.put(HabitModel.fromEntity(habit));
+    HabitModel habitModel = HabitModel.fromEntity(habit);
+    print(habitModel.id);
+    print(habitModel.title);
+    print(habitModel.description);
+    print("*********\n*****************\n*****************\n*****************\n*****************\n********");
+
+    HabitModel habitModel2 = HabitModel(title: "awda", description: "ADWA");
+    print(habitModel2.id);
+    print(habitModel2.title);
+    print(habitModel2.description);
+    print("*********\n*****************\n*****************\n*****************\n*****************\n********");
+
+    await _isar.writeTxn((isar) {
+      _isar.habitModels.put(habitModel);
     });
+
+    print("added");
   }
 
   @override
