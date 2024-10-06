@@ -1,13 +1,6 @@
 import 'package:habit_tracker_app/features/habit_tracker/domain/entities/habit_entity.dart';
-import 'package:isar/isar.dart';
 
-part 'habit_model.g.dart';
-
-@Collection()
 class HabitModel extends HabitEntity{
-
-  @Id()
-  int id = Isar.autoIncrement;
 
   HabitModel({required super.title, required super.description});
 
@@ -16,5 +9,12 @@ class HabitModel extends HabitEntity{
       title: entity.title,
       description: entity.description
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'title': title,
+      'description': description,
+    };
   }
 }

@@ -1,21 +1,19 @@
 import 'package:get_it/get_it.dart';
+import 'package:habit_tracker_app/features/habit_tracker/data/data_sources/local/habits_database.dart';
 import 'package:habit_tracker_app/features/habit_tracker/data/repositories/habit_repository_impl.dart';
 import 'package:habit_tracker_app/features/habit_tracker/domain/repositories/habit_repository.dart';
 import 'package:habit_tracker_app/features/habit_tracker/domain/use_cases/add_habit_usecase.dart';
 import 'package:habit_tracker_app/features/habit_tracker/domain/use_cases/get_habit_usecase.dart';
 import 'package:habit_tracker_app/features/habit_tracker/presentation/bloc/habit_bloc.dart';
 
-import 'core/services/database_service.dart';
-
 final locater = GetIt.instance;
 
 Future<void> initialiseDepenencies() async {
 
-  // Initialise database  
-  final isar = await DatabaseService.initDatabase();
+  locater.registerSingleton<HabitsDatabase>(
+    HabitsDatabaseImpl()
+  );
 
-  // Dependencies
-  locater.registerSingleton<Database  >(isar);
   locater.registerSingleton<HabitRepository>(
     HabitRepositoryImpl(locater())
   );

@@ -1,8 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:habit_tracker_app/features/habit_tracker/presentation/bloc/habit_bloc.dart';
-import 'package:habit_tracker_app/main.dart';
-import 'package:provider/provider.dart';
 import 'add_habit_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -29,7 +26,7 @@ class HomePage extends StatelessWidget {
       body: ListView.builder(
         itemCount: 0,
         itemBuilder: (context, index) {
-          return ListTile(
+          return const ListTile(
             title: Card(
               child: Text("TODO")
             )
