@@ -19,14 +19,25 @@ class HabitsDatabaseImpl extends HabitsDatabase {
         return db.execute(
           'CREATE TABLE habits(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, description TEXT)'
         );
-      }
+      },
+      version: 1,
     );
   }
 
+  Future<Database> get database async {
+    if (_database != null) return _database!;
+    _database = await _initDatabase();
+    return _database!;
+  }
+
   @override
-  Future<void> createHabit(HabitModel habit) {
-    // TODO: implement createHabit
-    throw UnimplementedError();
+  Future<void> createHabit(HabitModel habit) async {
+    final db = await database;
+    await db.insert(
+      'habits',
+      habit.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 }
 
