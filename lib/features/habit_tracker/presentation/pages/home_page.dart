@@ -35,10 +35,9 @@ class HomePage extends StatelessWidget {
             return ListView.builder(
               itemCount: state.habits.length,
               itemBuilder: (context, index) {
-                return const ListTile(
-                    title: Card(
-                        child: Text("TODO")
-                    )
+                final habit = state.habits[index];
+                return ListTile(
+                  title: Text(habit.title),
                 );
               },
             );
