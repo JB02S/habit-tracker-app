@@ -29,6 +29,9 @@ class HabitBloc extends Bloc<HabitEvent, HabitState> {
   Future<void> onAddHabitsEvent(AddHabitEvent event, Emitter<HabitState> emit) async {
     emit(HabitLoading());
     await _addHabitUseCase.execute(event.habit);
+
+    final habits = await _getHabitsUseCase.execute();
+    emit(HabitLoaded(habits));
   }
 
 }

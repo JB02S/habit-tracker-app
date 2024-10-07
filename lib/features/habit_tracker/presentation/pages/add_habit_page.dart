@@ -58,6 +58,7 @@ class _AddHabitPageState extends State<AddHabitPage> {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
                     habitBloc.add(AddHabitEvent(HabitEntity(title: _title, description: _description)));
+                    Navigator.pop(context);
                   }
                 },
                 child: Text("Add")
