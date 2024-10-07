@@ -17,8 +17,12 @@ class HabitRepositoryImpl implements HabitRepository {
   }
 
   @override
-  Future<void> getHabits() {
-    // TODO: implement getHabit
+  Future<List<HabitEntity>> getHabits() async {
+    List<Map<String, dynamic>> habitsRaw = await habitsDatabase.readHabits();
+    for (var habit in habitsRaw) {
+
+    }
+
     throw UnimplementedError();
   }
 

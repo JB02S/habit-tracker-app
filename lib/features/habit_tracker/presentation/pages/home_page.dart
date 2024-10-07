@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
         ],
       ),
       body: ListView.builder(
-        itemCount: 0,
+        itemCount: 1,
         itemBuilder: (context, index) {
           return const ListTile(
             title: Card(

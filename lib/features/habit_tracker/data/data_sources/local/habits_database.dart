@@ -5,6 +5,7 @@ import 'package:habit_tracker_app/features/habit_tracker/data/models/habit_model
 
 abstract class HabitsDatabase {
   Future<void> createHabit(HabitModel habit);
+  Future<List<Map<String, dynamic>>> readHabits();
 }
 
 class HabitsDatabaseImpl extends HabitsDatabase {
@@ -38,6 +39,12 @@ class HabitsDatabaseImpl extends HabitsDatabase {
       habit.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> readHabits() async {
+    final db = await database;
+    return await db.query('habits');
   }
 }
 
