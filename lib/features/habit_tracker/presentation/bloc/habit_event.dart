@@ -1,4 +1,4 @@
-import '../../domain/entities/habit_entity.dart';
+import 'package:habit_tracker_app/features/habit_tracker/domain/entities/habit_entity.dart';
 
 abstract class HabitEvent {
   const HabitEvent();

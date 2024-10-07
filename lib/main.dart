@@ -19,13 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<HabitBloc>(
 
-      // get BLoC and call GetHabitsEvent
-      create: (context) {
-        final bloc = locater<HabitBloc>();
-        bloc.add(const GetHabitsEvent());
-        return bloc;
-      },
-
+      create: (context) => locater<HabitBloc>()..add(const GetHabitsEvent()),
       child: MaterialApp(
         home: const HomePage(),
         theme: ThemeData(

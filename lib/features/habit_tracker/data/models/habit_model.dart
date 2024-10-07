@@ -12,11 +12,19 @@ class HabitModel extends HabitEntity{
     );
   }
 
+  // Convert from HabitModel to Entity
+  HabitEntity toEntity() {
+    return HabitEntity(
+      title: title,
+      description: description
+    );
+  }
+
   // Convert from Map to HabitModel
   factory HabitModel.fromMap(Map<String, dynamic> map) {
     return HabitModel(
       title: map['title'],
-      description: map['description'],    
+      description: map['description'],
     );
   }
 

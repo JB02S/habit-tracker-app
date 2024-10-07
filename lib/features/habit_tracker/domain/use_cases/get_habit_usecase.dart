@@ -6,7 +6,7 @@ class GetHabitsUsecase {
 
   GetHabitsUsecase(this._repository);
 
-  Future<void> execute() async {
-    await _repository.getHabits();
+  Future<List<HabitEntity>> execute() async {
+    return await _repository.getHabits();
   }
 }

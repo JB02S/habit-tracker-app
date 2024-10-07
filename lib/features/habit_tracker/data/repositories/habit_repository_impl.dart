@@ -18,12 +18,17 @@ class HabitRepositoryImpl implements HabitRepository {
 
   @override
   Future<List<HabitEntity>> getHabits() async {
-    List<Map<String, dynamic>> habitsRaw = await habitsDatabase.readHabits();
-    for (var habit in habitsRaw) {
 
-    }
+    // fetch raw data
+    List<Map<String, dynamic>> rawHabits = await habitsDatabase.readHabits();
 
-    throw UnimplementedError();
+    // conversion from raw data into models
+    final List<HabitModel> habitModels = rawHabits.map((habitMap) => HabitModel.fromMap(habitMap)).toList();
+
+    // conversion from models into entities
+    final List<HabitEntity> habits = habitModels.map((habitModel) => habitModel.toEntity()).toList();
+
+    return habits;
   }
 
 }

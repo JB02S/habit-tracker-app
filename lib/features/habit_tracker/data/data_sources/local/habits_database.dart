@@ -45,6 +45,7 @@ class HabitsDatabaseImpl extends HabitsDatabase {
   Future<List<Map<String, dynamic>>> readHabits() async {
     final db = await database;
     return await db.query('habits');
+
   }
 }
 

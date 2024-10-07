@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_tracker_app/features/habit_tracker/domain/entities/habit_entity.dart';
@@ -19,7 +18,12 @@ class HabitBloc extends Bloc<HabitEvent, HabitState> {
 
   Future<void> onGetHabitsEvent(GetHabitsEvent event, Emitter<HabitState> emit) async {
     emit(HabitLoading());
-    await _getHabitsUseCase.execute();
+    try {
+      final habits = await _getHabitsUseCase.execute(); // Fetch the habits
+      emit(HabitLoaded(habits)); // Emit loaded state with habits
+    } catch (e) {
+      emit(HabitError("Failed to load habits")); // Emit error state on failure
+    }
   }
 
   Future<void> onAddHabitsEvent(AddHabitEvent event, Emitter<HabitState> emit) async {
