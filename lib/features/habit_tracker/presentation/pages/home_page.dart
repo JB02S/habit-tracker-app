@@ -57,26 +57,26 @@ class _HomePageState extends State<HomePage> {
                 final habit = state.habits[index];
                 return AnimatedContainer(
                   duration: Duration(milliseconds: 300),
-                  child: Card(
-                    child: ListTile(
-                      title: Text(habit.title),
-                      leading: _showCheckboxes
-                        ? Checkbox(
-                            value: _checkboxValues![index],
-                            onChanged: (newValue) {
-                              setState(() {
-                                _checkboxValues![index] = newValue!;
-                              });
-                            }
-                          )
-                      : null,
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => DetailPage(habit: habit,))
-                        );
-                      },
-                    ),
+                  curve: Curves.easeInOut,
+                  padding: EdgeInsets.only(left: _showCheckboxes ? 0 : 50), // Adjust padding
+                  child: ListTile(
+                    title: Text(habit.title),
+                    leading: _showCheckboxes
+                      ? Checkbox(
+                          value: _checkboxValues![index],
+                          onChanged: (newValue) {
+                            setState(() {
+                              _checkboxValues![index] = newValue!;
+                            });
+                          }
+                        )
+                    : null,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => DetailPage(habit: habit,))
+                      );
+                    },
                   ),
                 );
               },
