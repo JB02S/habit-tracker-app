@@ -16,6 +16,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   bool _showCheckboxes = false;
+  List<bool>? _checkboxValues;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +50,7 @@ class _HomePageState extends State<HomePage> {
           if (state is HabitLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is HabitLoaded) {
+            _checkboxValues ??= List<bool>.filled(state.habits.length, false);
             return ListView.builder(
               itemCount: state.habits.length,
               itemBuilder: (context, index) {
@@ -60,9 +62,11 @@ class _HomePageState extends State<HomePage> {
                       title: Text(habit.title),
                       leading: _showCheckboxes
                         ? Checkbox(
-                            value: false,
+                            value: _checkboxValues![index],
                             onChanged: (newValue) {
-                              throw UnimplementedError();
+                              setState(() {
+                                _checkboxValues![index] = newValue!;
+                              });
                             }
                           )
                       : null,
