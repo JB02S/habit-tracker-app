@@ -15,18 +15,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin  {
 
+  bool _deleteMode = false;
   List<bool>? _checkboxValues;
   late AnimationController _controller;
   int? _length;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 200),
-    );
-  }
 
   void _toggleCheckboxVisibility() {
     if (_controller.isCompleted) {
@@ -35,6 +27,19 @@ class _HomePageState extends State<HomePage>
     } else {
       _controller.forward();
     }
+  }
+
+  void _toggleDeleteMode() {
+    _deleteMode = !_deleteMode;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 200),
+    );
   }
 
   @override
@@ -48,6 +53,7 @@ class _HomePageState extends State<HomePage>
           onPressed: () {
             setState(() {
               _toggleCheckboxVisibility();
+              _toggleDeleteMode();
             });
           },
           icon: const Icon(Icons.edit),
@@ -55,12 +61,16 @@ class _HomePageState extends State<HomePage>
         actions: <Widget>[
           IconButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const AddHabitPage())
-              );
+              if (_deleteMode) {
+                throw UnimplementedError();
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AddHabitPage())
+                );
+              }
             },
-            icon: const Icon(Icons.add)
+            icon: Icon(_deleteMode ? Icons.delete : Icons.add)
           ),
         ],
       ),
@@ -94,7 +104,15 @@ class _HomePageState extends State<HomePage>
                           }
                         ),
                         Expanded(
-                          child: Text(state.habits[index].title)
+                          child: GestureDetector(
+                            child: Text(state.habits[index].title),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => DetailPage(habit: state.habits[index]))
+                              );
+                            },
+                          ),
                         )
                       ],
                     ),
