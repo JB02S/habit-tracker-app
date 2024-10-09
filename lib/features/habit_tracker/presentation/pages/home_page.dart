@@ -17,24 +17,21 @@ class _HomePageState extends State<HomePage>
 
   List<bool>? _checkboxValues;
   late AnimationController _controller;
-  late Animation<double> _animation;
+  int? _length;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 300),
+      duration: Duration(milliseconds: 200),
     );
-    _animation = Tween<double>(begin: 0, end: 100).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
   }
 
   void _toggleCheckboxVisibility() {
     if (_controller.isCompleted) {
       _controller.reverse();
+      _checkboxValues = List.filled(_length!, false);
     } else {
       _controller.forward();
     }
@@ -73,75 +70,38 @@ class _HomePageState extends State<HomePage>
             return const Center(child: CircularProgressIndicator());
           } else if (state is HabitLoaded) {
             _checkboxValues ??= List<bool>.filled(state.habits.length, false);
-            return Row(
-              children: [
-                SizedBox(
-                  width: 100,
-                  child: SlideTransition(
-                    position: Tween<Offset>(
-                      begin: Offset(-1, 0),
-                      end: Offset(-0.2, 0)
-                    ).animate(CurvedAnimation(
-                        parent: _controller,
-                        curve: Curves.easeInOut
-                    )),
-                    child: ListView.builder(
-                      itemCount: state.habits.length,
-                      itemBuilder: (context, index) {
-                        return CheckboxListTile(
-                          value: false,
-                          onChanged: (bool? value) {},
-                        );
-                      },
-                    ),
-                  )
-                ),
-                Expanded(
-                  child: SlideTransition(
-                    position: Tween<Offset>(
-                      begin: Offset(-0.3, 0),
-                      end: Offset(-0.1, 0)
-                    ).animate(CurvedAnimation(
-                        parent: _controller,
-                        curve: Curves.easeInOut
-                    )),
-                    child: ListView.builder(
-                      itemCount: state.habits.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(state.habits[index].title),
-                        );
-                      },
+            _length ??= state.habits.length;
+            return ListView.builder(
+              itemCount: state.habits.length,
+              itemBuilder: (context, index) {
+                return SlideTransition(
+                  position: Tween<Offset>(
+                    begin: Offset(-0.13, 0),
+                    end: Offset(0, 0)
+                  ).animate(CurvedAnimation(
+                      parent: _controller,
+                      curve: Curves.easeInOut
+                  )),
+                  child: ListTile(
+                    title: Row(
+                      children: [
+                        Checkbox(
+                          value: _checkboxValues![index],
+                          onChanged: (value) {
+                            setState(() {
+                              _checkboxValues![index] = !_checkboxValues![index];
+                            });
+                          }
+                        ),
+                        Expanded(
+                          child: Text(state.habits[index].title)
+                        )
+                      ],
                     ),
                   ),
-                )
-              ],
+                );
+              }
             );
-            // return ListView.builder(
-            //   itemCount: state.habits.length,
-            //   itemBuilder: (context, index) {
-            //     final habit = state.habits[index];
-            //     return ListTile(
-            //       title: Text(habit.title),
-            //       leading: _showCheckboxes
-            //         ? Checkbox(
-            //             value: _checkboxValues![index],
-            //             onChanged: (newValue) {
-            //               setState(() {
-            //                 _checkboxValues![index] = newValue!;
-            //               });
-            //             }
-            //           )
-            //       : null,
-            //       onTap: () {
-            //         Navigator.push(
-            //           context,
-            //           MaterialPageRoute(builder: (context) => DetailPage(habit: habit,))
-            //         );
-            //       },
-            //     );
-            //   },
-            // );
           } else if (state is HabitError) {
             return Center(child: Text(state.message));
           }
