@@ -13,3 +13,9 @@ class AddHabitEvent extends HabitEvent {
   HabitEntity get habit => _habit;
   const AddHabitEvent(this._habit);
 }
+
+class DeleteHabitEvent extends HabitEvent {
+  final HabitEntity _habit;
+  HabitEntity get habit => _habit;
+  const DeleteHabitEvent(this._habit);
+}

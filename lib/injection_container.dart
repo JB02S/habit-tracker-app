@@ -3,6 +3,7 @@ import 'package:habit_tracker_app/features/habit_tracker/data/data_sources/local
 import 'package:habit_tracker_app/features/habit_tracker/data/repositories/habit_repository_impl.dart';
 import 'package:habit_tracker_app/features/habit_tracker/domain/repositories/habit_repository.dart';
 import 'package:habit_tracker_app/features/habit_tracker/domain/use_cases/add_habit_usecase.dart';
+import 'package:habit_tracker_app/features/habit_tracker/domain/use_cases/delete_habit_usecase.dart';
 import 'package:habit_tracker_app/features/habit_tracker/domain/use_cases/get_habit_usecase.dart';
 import 'package:habit_tracker_app/features/habit_tracker/presentation/bloc/habit_bloc.dart';
 
@@ -25,10 +26,13 @@ Future<void> initialiseDepenencies() async {
   locater.registerSingleton<GetHabitsUsecase>(
     GetHabitsUsecase(locater())
   );
+  locater.registerSingleton<DeleteHabitUsecase>(
+    DeleteHabitUsecase(locater())
+  );
 
   // BLoC's
   locater.registerFactory<HabitBloc>(
-    () => HabitBloc(locater(), locater())
+    () => HabitBloc(locater(), locater(), locater())
   );
 
 

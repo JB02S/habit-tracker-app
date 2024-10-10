@@ -31,4 +31,10 @@ class HabitRepositoryImpl implements HabitRepository {
     return habits;
   }
 
+  @override
+  Future<void> deleteHabit(HabitEntity habit) {
+    // TODO: implement deleteHabit
+    throw UnimplementedError();
+  }
+
 }

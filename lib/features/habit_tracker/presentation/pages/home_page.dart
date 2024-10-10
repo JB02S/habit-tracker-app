@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habit_tracker_app/features/habit_tracker/domain/repositories/habit_repository.dart';
 import 'package:habit_tracker_app/features/habit_tracker/presentation/bloc/habit_bloc.dart';
+import 'package:habit_tracker_app/features/habit_tracker/presentation/bloc/habit_event.dart';
 import 'package:habit_tracker_app/features/habit_tracker/presentation/bloc/habit_state.dart';
+import '../../../../injection_container.dart';
 import 'add_habit_page.dart';
 import 'detail_page.dart';
 
@@ -60,9 +63,16 @@ class _HomePageState extends State<HomePage>
         ),
         actions: <Widget>[
           IconButton(
-            onPressed: () {
+            onPressed: () async {
+
+              final habits = await locater<HabitRepository>().getHabits();
+
               if (_deleteMode) {
-                throw UnimplementedError();
+                for (int idx = 0; idx < _length; idx++) {
+                  if (_checkboxValues![idx] == true) {
+                    locater<HabitBloc>().add(DeleteHabitEvent(habits[idx]));
+                  }
+                }
               } else {
                 Navigator.push(
                   context,
