@@ -32,9 +32,9 @@ class HabitRepositoryImpl implements HabitRepository {
   }
 
   @override
-  Future<void> deleteHabit(HabitEntity habit) {
-    // TODO: implement deleteHabit
-    throw UnimplementedError();
+  Future<void> deleteHabit(HabitEntity habit) async {
+    HabitModel habitModel = HabitModel.fromEntity(habit);
+    await habitsDatabase.deleteHabit(habitModel);
   }
 
 }

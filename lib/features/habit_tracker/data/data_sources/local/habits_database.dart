@@ -5,6 +5,7 @@ import 'package:habit_tracker_app/features/habit_tracker/data/models/habit_model
 
 abstract class HabitsDatabase {
   Future<void> createHabit(HabitModel habit);
+  Future<void> deleteHabit(HabitModel habit);
   Future<List<Map<String, dynamic>>> readHabits();
 }
 
@@ -46,6 +47,15 @@ class HabitsDatabaseImpl extends HabitsDatabase {
     final db = await database;
     return await db.query('habits');
 
+  }
+
+  @override
+  Future<void> deleteHabit(HabitModel habit) async {
+    final db = await database;
+    await db.delete(
+      'habits',
+      where: 'id = ?',
+    );
   }
 }
 
