@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_tracker_app/features/habit_tracker/presentation/bloc/habit_bloc.dart';
 import 'package:habit_tracker_app/features/habit_tracker/presentation/bloc/habit_state.dart';
-import '../../../../injection_container.dart';
-import '../bloc/habit_event.dart';
 import 'add_habit_page.dart';
 import 'detail_page.dart';
 
@@ -20,7 +18,7 @@ class _HomePageState extends State<HomePage>
   bool _deleteMode = false;
   List<bool>? _checkboxValues;
   late AnimationController _controller;
-  int? _length;
+  int _length = 0;
 
   void _toggleCheckboxVisibility() {
     if (_controller.isCompleted) {
@@ -79,15 +77,22 @@ class _HomePageState extends State<HomePage>
       body: BlocBuilder<HabitBloc, HabitState>(
         builder: (context, state) {
           if (state is HabitLoading) {
+
             return const Center(child: CircularProgressIndicator());
+
           } else if (state is HabitLoaded) {
-            _checkboxValues = List<bool>.filled(state.habits.length, false);
-            _length = state.habits.length;
-            if (state.habits.length == 0) {
+
+            // only update checkboxvalues if number of habits change, so if length changes
+            if (_length != state.habits.length) {
+              _length = state.habits.length;
+              _checkboxValues = List<bool>.filled(_length!, false);
+            }
+
+            if (_length == 0) {
               return Center(child: Text("You have no habits"));
             } else {
               return ListView.builder(
-                  itemCount: state.habits.length,
+                  itemCount: _length,
                   itemBuilder: (context, index) {
                     return SlideTransition(
                       position: Tween<Offset>(
@@ -101,12 +106,14 @@ class _HomePageState extends State<HomePage>
                         title: Row(
                           children: [
                             Checkbox(
-                                value: _checkboxValues![index],
-                                onChanged: (value) {
-                                  setState(() {
-                                    _checkboxValues![index] = !_checkboxValues![index];
-                                  });
-                                }
+                              value: _checkboxValues![index],
+                              onChanged: (value) {
+                                setState(() {
+                                  print("${index}");
+                                  print("${_checkboxValues![index]}");
+                                  _checkboxValues![index] = !_checkboxValues![index];
+                                });
+                              }
                             ),
                             Expanded(
                               child: GestureDetector(
