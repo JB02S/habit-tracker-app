@@ -20,10 +20,10 @@ class HabitBloc extends Bloc<HabitEvent, HabitState> {
   Future<void> onGetHabitsEvent(GetHabitsEvent event, Emitter<HabitState> emit) async {
     emit(HabitLoading());
     try {
-      final habits = await _getHabitsUseCase.execute(); // Fetch the habits
-      emit(HabitLoaded(habits)); // Emit loaded state with habits
+      final habits = await _getHabitsUseCase.execute();
+      emit(HabitLoaded(habits));
     } catch (e) {
-      emit(HabitError("Failed to load habits")); // Emit error state on failure
+      emit(HabitError("Failed to load habits"));
     }
   }
 

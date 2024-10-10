@@ -70,11 +70,10 @@ class _HomePageState extends State<HomePage>
               if (_deleteMode) {
                 for (int idx = 0; idx < _length; idx++) {
                   if (_checkboxValues![idx] == true) {
-                    locater<HabitBloc>().add(DeleteHabitEvent(habits[idx]));
+                    context.read<HabitBloc>().add(DeleteHabitEvent(habits[idx]));
                   }
                 }
 
-                locater<HabitBloc>().add(GetHabitsEvent());
                 setState(() {
                   _toggleCheckboxVisibility();
                   _toggleDeleteMode();
@@ -98,13 +97,12 @@ class _HomePageState extends State<HomePage>
             return const Center(child: CircularProgressIndicator());
 
           } else if (state is HabitLoaded) {
-
+            print(state.habits.length);
             // only update checkboxvalues if number of habits change, so if length changes
             if (_length != state.habits.length) {
               _length = state.habits.length;
-              _checkboxValues = List<bool>.filled(_length!, false);
+              _checkboxValues = List<bool>.filled(_length, false);
             }
-
             if (_length == 0) {
               return Center(child: Text("You have no habits"));
             } else {
