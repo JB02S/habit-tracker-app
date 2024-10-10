@@ -4,6 +4,8 @@ import 'package:habit_tracker_app/features/habit_tracker/presentation/bloc/habit
 import 'package:habit_tracker_app/features/habit_tracker/presentation/bloc/habit_event.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../injection_container.dart';
+
 class AddHabitPage extends StatefulWidget {
   const AddHabitPage({super.key});
 

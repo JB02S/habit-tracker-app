@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_tracker_app/features/habit_tracker/presentation/bloc/habit_bloc.dart';
 import 'package:habit_tracker_app/features/habit_tracker/presentation/bloc/habit_state.dart';
+import '../../../../injection_container.dart';
+import '../bloc/habit_event.dart';
 import 'add_habit_page.dart';
 import 'detail_page.dart';
 
@@ -66,7 +68,7 @@ class _HomePageState extends State<HomePage>
               } else {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const AddHabitPage())
+                  MaterialPageRoute(builder: (context) => const AddHabitPage()),
                 );
               }
             },
@@ -79,47 +81,51 @@ class _HomePageState extends State<HomePage>
           if (state is HabitLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is HabitLoaded) {
-            _checkboxValues ??= List<bool>.filled(state.habits.length, false);
-            _length ??= state.habits.length;
-            return ListView.builder(
-              itemCount: state.habits.length,
-              itemBuilder: (context, index) {
-                return SlideTransition(
-                  position: Tween<Offset>(
-                    begin: Offset(-0.13, 0),
-                    end: Offset(0, 0)
-                  ).animate(CurvedAnimation(
-                      parent: _controller,
-                      curve: Curves.easeInOut
-                  )),
-                  child: ListTile(
-                    title: Row(
-                      children: [
-                        Checkbox(
-                          value: _checkboxValues![index],
-                          onChanged: (value) {
-                            setState(() {
-                              _checkboxValues![index] = !_checkboxValues![index];
-                            });
-                          }
+            _checkboxValues = List<bool>.filled(state.habits.length, false);
+            _length = state.habits.length;
+            if (state.habits.length == 0) {
+              return Center(child: Text("You have no habits"));
+            } else {
+              return ListView.builder(
+                  itemCount: state.habits.length,
+                  itemBuilder: (context, index) {
+                    return SlideTransition(
+                      position: Tween<Offset>(
+                          begin: Offset(-0.13, 0),
+                          end: Offset(0, 0)
+                      ).animate(CurvedAnimation(
+                          parent: _controller,
+                          curve: Curves.easeInOut
+                      )),
+                      child: ListTile(
+                        title: Row(
+                          children: [
+                            Checkbox(
+                                value: _checkboxValues![index],
+                                onChanged: (value) {
+                                  setState(() {
+                                    _checkboxValues![index] = !_checkboxValues![index];
+                                  });
+                                }
+                            ),
+                            Expanded(
+                              child: GestureDetector(
+                                child: Text(state.habits[index].title),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => DetailPage(habit: state.habits[index]))
+                                  );
+                                },
+                              ),
+                            )
+                          ],
                         ),
-                        Expanded(
-                          child: GestureDetector(
-                            child: Text(state.habits[index].title),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => DetailPage(habit: state.habits[index]))
-                              );
-                            },
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                );
-              }
-            );
+                      ),
+                    );
+                  }
+              );
+            }
           } else if (state is HabitError) {
             return Center(child: Text(state.message));
           }
