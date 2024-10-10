@@ -46,7 +46,6 @@ class HabitsDatabaseImpl extends HabitsDatabase {
   Future<List<Map<String, dynamic>>> readHabits() async {
     final db = await database;
     return await db.query('habits');
-
   }
 
   @override
@@ -55,6 +54,7 @@ class HabitsDatabaseImpl extends HabitsDatabase {
     await db.delete(
       'habits',
       where: 'id = ?',
+      whereArgs: [habit.id]
     );
   }
 }

@@ -73,6 +73,13 @@ class _HomePageState extends State<HomePage>
                     locater<HabitBloc>().add(DeleteHabitEvent(habits[idx]));
                   }
                 }
+
+                locater<HabitBloc>().add(GetHabitsEvent());
+                setState(() {
+                  _toggleCheckboxVisibility();
+                  _toggleDeleteMode();
+                });
+
               } else {
                 Navigator.push(
                   context,
@@ -119,8 +126,6 @@ class _HomePageState extends State<HomePage>
                               value: _checkboxValues![index],
                               onChanged: (value) {
                                 setState(() {
-                                  print("${index}");
-                                  print("${_checkboxValues![index]}");
                                   _checkboxValues![index] = !_checkboxValues![index];
                                 });
                               }
