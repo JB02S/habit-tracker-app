@@ -8,21 +8,6 @@ branch_patterns:
     source: true
 
 workflows:
-  build:
-    name: Build Workflow
-    triggering:
-      events:
-        - push
-        - pull_request
-    scripts:
-      - name: Install dependencies
-        script: |
-          flutter pub get
-
-      - name: Build APK
-        script: |
-          flutter build apk --release
-
   test:
     name: Test Workflow
     triggering:
@@ -37,14 +22,28 @@ workflows:
       - name: Run tests
         script: |
           flutter test --coverage
+    artifacts:
+      - coverage/lcov.info
 
-  publishing:
+  build:
+    name: Build Workflow
     triggering:
       events:
         - push
         - pull_request
     scripts:
-      - name: Publish artifacts
+      - name: Install dependencies
         script: |
-          mkdir -p artifacts
-          cp -r coverage/lcov.info artifacts/
+          flutter pub get
+
+      - name: Building Android
+        script: |
+          flutter build apk --release
+
+      - name: Build iOS
+        script: |
+          flutter build ios --debug --no-codesign
+
+    artifacts:
+      - build/app/outputs/bundle/release/app-release.aab
+      - build/ios/iphoneos/Runner.app
