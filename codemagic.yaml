@@ -13,12 +13,12 @@ branch_patterns:
     source: true
 
 workflows:
-  triggering:
-    events:
-      - push
-      - pull_request
   build:
     name: Build Workflow
+    triggering:
+      events:
+        - push
+        - pull_request
     scripts:
       - name: Install dependencies
         script: |
