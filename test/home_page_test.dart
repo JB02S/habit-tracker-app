@@ -12,7 +12,7 @@ class MockHabitBloc extends Mock implements HabitBloc {}
 void main() {
 
   late MockHabitBloc mockHabitBloc;
-  late final List<HabitEntity> habits;
+  late List<HabitEntity> habits;
 
   setUp(() {
 
@@ -141,7 +141,7 @@ void main() {
 
   group('icon button functionality tests', () {
 
-    testWidgets('test edit button tap', (WidgetTester tester) async {
+    testWidgets('test edit button tap toggles delete button visibility', (WidgetTester tester) async {
 
       when(() => mockHabitBloc.state).thenReturn(HabitLoaded(habits));
 
@@ -158,9 +158,54 @@ void main() {
       await tester.tap(editButton);
       await tester.pump();
       final Finder deleteButton = find.byIcon(Icons.delete);
+      final Finder addButton = find.byIcon(Icons.add);
 
-      expect(editButton, findsOneWidget);
+      expect(addButton, findsNothing);
+      expect(deleteButton, findsOneWidget);
+
+      await tester.tap(editButton);
+      await tester.pump();
+
+      expect(addButton, findsOneWidget);
+      expect(deleteButton, findsNothing);
+
     });
+
+    // TODO: Fix this test!!, the Checkboxes were in the widget tree but the test can't find them after edit is press
+    // testWidgets('test edit button tap toggles checkbox visibility', (WidgetTester tester) async {
+    //
+    //   when(() => mockHabitBloc.state).thenReturn(HabitLoaded(habits));
+    //
+    //   await tester.pumpWidget(
+    //       MaterialApp(
+    //         home: BlocProvider<HabitBloc>.value(
+    //             value: mockHabitBloc,
+    //             child: HomePage()
+    //         ),
+    //       )
+    //   );
+    //
+    //   expect(find.byType(Checkbox), findsNWidgets(habits.length));
+    //
+    //   for (int i = 0; i < habits.length; i++) {
+    //     final checkboxFinder = find.byType(Checkbox).at(i);
+    //     expect(tester.getTopLeft(checkboxFinder).dx, lessThan(0));
+    //   }
+    //
+    //   final Finder editButton = find.byIcon(Icons.edit);
+    //   await tester.tap(editButton);
+    //   await tester.pumpAndSettle();
+    //
+    //   await tester.tap(editButton);
+    //   await tester.pumpAndSettle();
+    //   expect(find.byType(Checkbox), findsNWidgets(habits.length));
+    //
+    //   for (int i = 0; i < habits.length; i++) {
+    //     final checkboxFinder = find.byType(Checkbox).at(i);
+    //     expect(tester.getTopLeft(checkboxFinder).dx, greaterThanOrEqualTo(0));
+    //   }
+    //
+    // });
 
   });
 }

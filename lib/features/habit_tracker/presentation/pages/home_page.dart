@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage>
   void _toggleCheckboxVisibility() {
     if (_controller.isCompleted) {
       _controller.reverse();
-      _checkboxValues = List.filled(_length!, false);
+      _checkboxValues = List.filled(_length, false);
     } else {
       _controller.forward();
     }
