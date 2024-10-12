@@ -9,9 +9,24 @@ triggering:
 
 branch_patterns:
   - pattern: '*'
-  - include: true
+    include: true
 
 workflows:
+  build:
+    name: Build Workflow
+    scripts:
+      - name: Install dependencies
+        script: |
+          flutter pub get
+
+      - name: Build APK
+        script: |
+          flutter build apk --release
+
+      - name: Build iOS
+        script: |
+          flutter build ios --release
+
   test:
     name: Test Workflow
     scripts:
@@ -21,4 +36,11 @@ workflows:
 
       - name: Run tests
         script: |
-          flutter test
+          flutter test --coverage
+
+  publishing:
+    scripts:
+      - name: Publish artifacts
+        script: |
+          mkdir -p artifacts
+          cp -r coverage/lcov.info artifacts/
