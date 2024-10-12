@@ -2,11 +2,6 @@ environment:
   flutter: stable
   xcode: latest
 
-triggering:
-  events:
-    - push
-    - pull_request
-
 branch_patterns:
   - pattern: '*'
     include: true
@@ -30,6 +25,10 @@ workflows:
 
   test:
     name: Test Workflow
+    triggering:
+      events:
+        - push
+        - pull_request
     scripts:
       - name: Install dependencies
         script: |
@@ -40,6 +39,10 @@ workflows:
           flutter test --coverage
 
   publishing:
+    triggering:
+      events:
+        - push
+        - pull_request
     scripts:
       - name: Publish artifacts
         script: |
