@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 import 'package:habit_tracker_app/features/habit_tracker/domain/entities/habit_entity.dart';
+import 'package:habit_tracker_app/features/habit_tracker/domain/repositories/habit_repository.dart';
 import 'package:habit_tracker_app/features/habit_tracker/presentation/bloc/habit_bloc.dart';
 import 'package:habit_tracker_app/features/habit_tracker/presentation/bloc/habit_state.dart';
+import 'package:habit_tracker_app/features/habit_tracker/presentation/pages/add_habit_page.dart';
 import 'package:habit_tracker_app/features/habit_tracker/presentation/pages/home_page.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockHabitBloc extends Mock implements HabitBloc {}
 
+class MockHabitRepository extends Mock implements HabitRepository {}
+
 void main() {
 
   late MockHabitBloc mockHabitBloc;
+  late MockHabitRepository mockHabitRepository;
   late List<HabitEntity> habits;
 
   setUp(() {
 
     mockHabitBloc = MockHabitBloc();
+    mockHabitRepository = MockHabitRepository();
     habits = generateHabits(8);
 
     when(() => mockHabitBloc.stream).thenAnswer(
@@ -26,7 +33,13 @@ void main() {
     );
 
     when(() => mockHabitBloc.state).thenReturn(HabitInitial());
+    GetIt.I.registerSingleton<HabitRepository>(mockHabitRepository);
+    GetIt.I.registerSingleton<HabitBloc>(mockHabitBloc);
 
+  });
+
+  tearDown(() {
+    GetIt.I.reset();
   });
 
   group('rendering tests', () {
@@ -206,6 +219,30 @@ void main() {
     //   }
     //
     // });
+
+
+    // important note, when navigator button called it pushes page right below materialapp, https://stackoverflow.com/questions/67356450/flutter-could-not-find-the-correct-providerbloc-after-navigating-to-different,
+    // so need to always ensure that MaterialApp is within the BlocProvider so descendant widgets can access
+    testWidgets('test add button', (WidgetTester tester) async {
+      when(() => mockHabitBloc.state).thenReturn(HabitLoaded([]));
+      when(() => mockHabitRepository.getHabits()).thenAnswer((_) async => habits);
+
+      await tester.pumpWidget(
+        BlocProvider<HabitBloc>.value(
+          value: mockHabitBloc,
+          child: MaterialApp(
+            home: HomePage(),
+          ),
+        ),
+      );
+
+      final Finder addButton = find.byIcon(Icons.add);
+      await tester.tap(addButton);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(AddHabitPage), findsOneWidget);
+
+    });
 
   });
 }

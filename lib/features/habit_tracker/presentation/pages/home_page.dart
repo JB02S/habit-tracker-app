@@ -4,9 +4,9 @@ import 'package:habit_tracker_app/features/habit_tracker/domain/repositories/hab
 import 'package:habit_tracker_app/features/habit_tracker/presentation/bloc/habit_bloc.dart';
 import 'package:habit_tracker_app/features/habit_tracker/presentation/bloc/habit_event.dart';
 import 'package:habit_tracker_app/features/habit_tracker/presentation/bloc/habit_state.dart';
-import '../../../../injection_container.dart';
-import 'add_habit_page.dart';
-import 'detail_page.dart';
+import 'package:habit_tracker_app/injection_container.dart';
+import 'package:habit_tracker_app/features/habit_tracker/presentation/pages/add_habit_page.dart';
+import 'package:habit_tracker_app/features/habit_tracker/presentation/pages/detail_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -88,7 +88,8 @@ class _HomePageState extends State<HomePage>
               } else {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const AddHabitPage()),
+                  MaterialPageRoute(
+                    builder: (context) => const AddHabitPage()),
                 );
               }
             },
