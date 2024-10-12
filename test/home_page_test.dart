@@ -9,22 +9,22 @@ import 'package:mocktail/mocktail.dart';
 class MockHabitBloc extends Mock implements HabitBloc {}
 
 void main() {
-  
-  group('testing HomePage functions', () {
 
-    late MockHabitBloc mockHabitBloc;
+  late MockHabitBloc mockHabitBloc;
 
-    setUp(() {
-      mockHabitBloc = MockHabitBloc();
+  setUp(() {
+    mockHabitBloc = MockHabitBloc();
 
-      when(() => mockHabitBloc.stream).thenAnswer(
-              (_) => Stream<HabitState>.fromIterable([
-            HabitInitial(), HabitLoading(), HabitLoaded([])
-          ])
-      );
+    when(() => mockHabitBloc.stream).thenAnswer(
+            (_) => Stream<HabitState>.fromIterable([
+          HabitInitial(), HabitLoading(), HabitLoaded([])
+        ])
+    );
 
-      when(() => mockHabitBloc.state).thenReturn(HabitInitial());
-    });
+    when(() => mockHabitBloc.state).thenReturn(HabitInitial());
+  });
+
+  group('rendering tests', () {
 
     testWidgets('renders HomePage test', (WidgetTester tester) async {
 
@@ -39,6 +39,22 @@ void main() {
 
       expect(find.byType(HomePage), findsOneWidget);
 
+    });
+
+    testWidgets('displays loading indicator when state is HabitLoading', (WidgetTester tester) async {
+
+      when(() => mockHabitBloc.state).thenReturn(HabitLoading());
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: BlocProvider<HabitBloc>.value(
+            value: mockHabitBloc,
+            child: HomePage(),
+          ),
+        )
+      );
+
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
   });

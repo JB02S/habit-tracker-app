@@ -97,7 +97,6 @@ class _HomePageState extends State<HomePage>
             return const Center(child: CircularProgressIndicator());
 
           } else if (state is HabitLoaded) {
-            print(state.habits.length);
             // only update checkboxvalues if number of habits change, so if length changes
             if (_length != state.habits.length) {
               _length = state.habits.length;
