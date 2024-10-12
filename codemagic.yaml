@@ -10,6 +10,7 @@ triggering:
 branch_patterns:
   - pattern: '*'
     include: true
+    source: true
 
 workflows:
   build:
