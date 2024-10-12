@@ -1,17 +1,14 @@
-<div style="text-align: center;">
+<h1 align="center">Habit Tracker App</h1>
 
-# Habit Tracker App
+<p align="center">
+  <a href="https://codemagic.io/app/670a32a53c0ab51c9c5f4937/670a32a53c0ab51c9c5f4936/latest_build">
+    <img src="https://api.codemagic.io/apps/670a32a53c0ab51c9c5f4937/670a32a53c0ab51c9c5f4936/status_badge.svg" alt="Codemagic build status">
+  </a>
+</p>
 
-</div>
-
-<div style="text-align: center;">
-
-[![Codemagic build status](https://api.codemagic.io/apps/670a32a53c0ab51c9c5f4937/670a32a53c0ab51c9c5f4936/status_badge.svg)](https://codemagic.io/app/670a32a53c0ab51c9c5f4937/670a32a53c0ab51c9c5f4936/latest_build)
-
-</div>
-
-
-Habit tracker flutter app
+<p>
+  Flutter app for keeping track of a users habits and being able to add and delete habits, more functionality coming..
+</p>
 
 ## Prototype
 
