@@ -23,10 +23,6 @@ workflows:
         script: |
           flutter build apk --release
 
-      - name: Build iOS
-        script: |
-          flutter build ios --release
-
   test:
     name: Test Workflow
     scripts:
