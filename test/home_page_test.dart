@@ -169,7 +169,7 @@ void main() {
 
       final Finder editButton = find.byIcon(Icons.edit);
       await tester.tap(editButton);
-      await tester.pump();
+      await tester.pumpAndSettle();
       final Finder deleteButton = find.byIcon(Icons.delete);
       final Finder addButton = find.byIcon(Icons.add);
 
@@ -177,7 +177,7 @@ void main() {
       expect(deleteButton, findsOneWidget);
 
       await tester.tap(editButton);
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       expect(addButton, findsOneWidget);
       expect(deleteButton, findsNothing);
@@ -197,7 +197,7 @@ void main() {
     //       ),
     //     ),
     //   );
-    //
+
     //   expect(find.byType(Checkbox), findsNWidgets(habits.length));
     //
     //   for (int i = 0; i < habits.length; i++) {
@@ -243,6 +243,8 @@ void main() {
       expect(find.byType(AddHabitPage), findsOneWidget);
 
     });
+
+
 
   });
 }
