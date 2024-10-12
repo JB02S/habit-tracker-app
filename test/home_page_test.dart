@@ -47,12 +47,12 @@ void main() {
     testWidgets('renders HomePage test', (WidgetTester tester) async {
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: BlocProvider<HabitBloc>.value(
-            value: mockHabitBloc,
-            child: HomePage()
+        BlocProvider<HabitBloc>.value(
+          value: mockHabitBloc,
+          child: MaterialApp(
+            home: HomePage(),
           ),
-        )
+        ),
       );
 
       expect(find.byType(HomePage), findsOneWidget);
@@ -64,12 +64,12 @@ void main() {
       when(() => mockHabitBloc.state).thenReturn(HabitLoading());
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: BlocProvider<HabitBloc>.value(
-            value: mockHabitBloc,
-            child: HomePage(),
+        BlocProvider<HabitBloc>.value(
+          value: mockHabitBloc,
+          child: MaterialApp(
+            home: HomePage(),
           ),
-        )
+        ),
       );
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
@@ -80,12 +80,12 @@ void main() {
       when(() => mockHabitBloc.state).thenReturn(HabitLoaded([]));
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: BlocProvider<HabitBloc>.value(
-            value: mockHabitBloc,
-            child: HomePage()
+        BlocProvider<HabitBloc>.value(
+          value: mockHabitBloc,
+          child: MaterialApp(
+            home: HomePage(),
           ),
-        )
+        ),
       );
 
       expect(find.text('You have no habits'), findsOneWidget);
@@ -100,12 +100,12 @@ void main() {
       when(() => mockHabitBloc.state).thenReturn(HabitLoaded(habits));
 
       await tester.pumpWidget(
-          MaterialApp(
-            home: BlocProvider<HabitBloc>.value(
-                value: mockHabitBloc,
-                child: HomePage()
-            ),
-          )
+        BlocProvider<HabitBloc>.value(
+          value: mockHabitBloc,
+          child: MaterialApp(
+            home: HomePage(),
+          ),
+        ),
       );
 
       for (final habit in habits) {
@@ -119,12 +119,12 @@ void main() {
       when(() => mockHabitBloc.state).thenReturn(HabitLoaded([]));
 
       await tester.pumpWidget(
-          MaterialApp(
-            home: BlocProvider<HabitBloc>.value(
-                value: mockHabitBloc,
-                child: HomePage()
-            ),
-          )
+        BlocProvider<HabitBloc>.value(
+          value: mockHabitBloc,
+          child: MaterialApp(
+            home: HomePage(),
+          ),
+        ),
       );
 
       final Finder editButton = find.byIcon(Icons.edit);
@@ -137,12 +137,12 @@ void main() {
       when(() => mockHabitBloc.state).thenReturn(HabitLoaded([]));
 
       await tester.pumpWidget(
-          MaterialApp(
-            home: BlocProvider<HabitBloc>.value(
-                value: mockHabitBloc,
-                child: HomePage()
-            ),
-          )
+        BlocProvider<HabitBloc>.value(
+          value: mockHabitBloc,
+          child: MaterialApp(
+            home: HomePage(),
+          ),
+        ),
       );
 
       final Finder editButton = find.byIcon(Icons.add);
@@ -159,12 +159,12 @@ void main() {
       when(() => mockHabitBloc.state).thenReturn(HabitLoaded(habits));
 
       await tester.pumpWidget(
-          MaterialApp(
-            home: BlocProvider<HabitBloc>.value(
-                value: mockHabitBloc,
-                child: HomePage()
-            ),
-          )
+        BlocProvider<HabitBloc>.value(
+          value: mockHabitBloc,
+          child: MaterialApp(
+            home: HomePage(),
+          ),
+        ),
       );
 
       final Finder editButton = find.byIcon(Icons.edit);
@@ -184,18 +184,18 @@ void main() {
 
     });
 
-    // TODO: Fix this test!!, the Checkboxes were in the widget tree but the test can't find them after edit is press
+    // TODO: Fix this test!!, the Checkboxes are in the widget tree but the test can't find them after edit is pressed for some reason
     // testWidgets('test edit button tap toggles checkbox visibility', (WidgetTester tester) async {
     //
     //   when(() => mockHabitBloc.state).thenReturn(HabitLoaded(habits));
     //
     //   await tester.pumpWidget(
-    //       MaterialApp(
-    //         home: BlocProvider<HabitBloc>.value(
-    //             value: mockHabitBloc,
-    //             child: HomePage()
-    //         ),
-    //       )
+    //     BlocProvider<HabitBloc>.value(
+    //       value: mockHabitBloc,
+    //       child: MaterialApp(
+    //         home: HomePage(),
+    //       ),
+    //     ),
     //   );
     //
     //   expect(find.byType(Checkbox), findsNWidgets(habits.length));
