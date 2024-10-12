@@ -12,9 +12,12 @@ class MockHabitBloc extends Mock implements HabitBloc {}
 void main() {
 
   late MockHabitBloc mockHabitBloc;
+  late final List<HabitEntity> habits;
 
   setUp(() {
+
     mockHabitBloc = MockHabitBloc();
+    habits = generateHabits(8);
 
     when(() => mockHabitBloc.stream).thenAnswer(
             (_) => Stream<HabitState>.fromIterable([
@@ -23,6 +26,7 @@ void main() {
     );
 
     when(() => mockHabitBloc.state).thenReturn(HabitInitial());
+
   });
 
   group('rendering tests', () {
@@ -77,9 +81,8 @@ void main() {
 
     testWidgets('renders correctly during state HabitLoaded with habits', (WidgetTester tester) async {
 
-      // Issue with this tests, fails if the number of tests needs to be scrolled down to be seen, e.g generateHabits(n > 9)
+      // Issue with this tests, fails if the number of tests needs to be scrolled down to be seen, e.g no. of habits > 9
       // Also want to add description summary check, still need to implement this feature
-      final List<HabitEntity> habits = generateHabits(8);
 
       when(() => mockHabitBloc.state).thenReturn(HabitLoaded(habits));
 
@@ -98,8 +101,67 @@ void main() {
 
     });
 
+    testWidgets('test edit button renders', (WidgetTester tester) async {
 
-    
+      when(() => mockHabitBloc.state).thenReturn(HabitLoaded([]));
+
+      await tester.pumpWidget(
+          MaterialApp(
+            home: BlocProvider<HabitBloc>.value(
+                value: mockHabitBloc,
+                child: HomePage()
+            ),
+          )
+      );
+
+      final Finder editButton = find.byIcon(Icons.edit);
+      expect(editButton, findsOneWidget);
+
+    });
+
+    testWidgets('test add button renders', (WidgetTester tester) async {
+
+      when(() => mockHabitBloc.state).thenReturn(HabitLoaded([]));
+
+      await tester.pumpWidget(
+          MaterialApp(
+            home: BlocProvider<HabitBloc>.value(
+                value: mockHabitBloc,
+                child: HomePage()
+            ),
+          )
+      );
+
+      final Finder editButton = find.byIcon(Icons.add);
+      expect(editButton, findsOneWidget);
+
+    });
+
+  });
+
+  group('icon button functionality tests', () {
+
+    testWidgets('test edit button tap', (WidgetTester tester) async {
+
+      when(() => mockHabitBloc.state).thenReturn(HabitLoaded(habits));
+
+      await tester.pumpWidget(
+          MaterialApp(
+            home: BlocProvider<HabitBloc>.value(
+                value: mockHabitBloc,
+                child: HomePage()
+            ),
+          )
+      );
+
+      final Finder editButton = find.byIcon(Icons.edit);
+      await tester.tap(editButton);
+      await tester.pump();
+      final Finder deleteButton = find.byIcon(Icons.delete);
+
+      expect(editButton, findsOneWidget);
+    });
+
   });
 }
 
